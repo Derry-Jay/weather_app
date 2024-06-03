@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
     context.initScreenUtil(designSize: minDesignSize);
     return MaterialApp(
         home: c2,
+        title: title,
         theme: css.theme,
         navigatorKey: navKey,
         onGenerateRoute: rg.generateRoute,
