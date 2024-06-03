@@ -60,9 +60,7 @@ class WeatherHour {
       stations = List<String>.from(json['stations'] as List? ?? []);
       source = json['source'].string;
     } catch (e) {
-      'Weather hour'.jot();
       e.jot();
-      'Weather hour'.jot();
     }
   }
 

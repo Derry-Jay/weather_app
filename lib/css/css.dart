@@ -1,19 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../extensions/continuations.dart';
 import '../extensions/extensions.dart';
 import '../utils/values.dart';
 
 class Css {
   static final Css _singleton = Css._internal();
 
-  factory Css() {
-    return _singleton;
-  }
+  factory Css() => _singleton;
 
   Css._internal();
 
   final cityStyle = 'Poppins'.getStyleFromFont(fontWeight: 600.fontWeight),
+      appNameStyle = 'Poppins'.getStyleFromFont(
+          fontSize: measurements.large, fontWeight: 600.fontWeight),
       defaultXLMStyle = 'Poppins'.getStyleFromFont(
           fontSize: measurements.xl, fontWeight: 500.fontWeight),
       defaultLMStyle = 'Poppins'.getStyleFromFont(

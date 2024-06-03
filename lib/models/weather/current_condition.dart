@@ -37,7 +37,6 @@ class CurrentCondition {
 
   CurrentCondition.fromJson(Map<String, Object?> json) {
     try {
-      json.jot();
       dateTime = json['datetime'].string.time;
       dateTimeEpoch =
           (json['datetimeEpoch'].string.toInt() * 1000).getDateFromMilli();
@@ -72,9 +71,7 @@ class CurrentCondition {
       stations = List<String>.from(json['stations'] as List? ?? []);
       source = json['source'].string;
     } catch (e) {
-      'Current Condition'.jot();
       e.jot();
-      'Current Condition'.jot();
     }
   }
 }

@@ -19,6 +19,8 @@ class CommonModule extends ChangeNotifier
 
   CommonModule._internal();
 
+  int itemCount = 5;
+
   Animation<double>? animation;
 
   late BuildContext _buildContext;
@@ -41,8 +43,8 @@ class CommonModule extends ChangeNotifier
     event.jot();
   }
 
-  Future gotoNextScreen() async {
-    return context.gotoForever('/weather');
+  void setItemCount(int ct) {
+    itemCount = ct;
   }
 
   void onProgress(int a, int b) async {
@@ -55,10 +57,15 @@ class CommonModule extends ChangeNotifier
     }
   }
 
-  void nextScreen(Duration timeStamp) async {
-    await Future.delayed(
-        timeStamp.inSeconds == 3 ? timeStamp : const Duration(seconds: 3),
-        gotoNextScreen);
+  void nextScreen() async {
+    void gotoNextScreen(Duration timeStamp) async {
+      (await Future.delayed(
+              timeStamp.inSeconds == 3 ? timeStamp : const Duration(seconds: 3),
+              firstScreen))
+          .jot();
+    }
+
+    wb?.addPostFrameCallback(gotoNextScreen);
   }
 
   void detectChange(AnimationStatus status) {
@@ -110,5 +117,9 @@ class CommonModule extends ChangeNotifier
   void didUnregisterListener() {
     // TODO: implement didUnregisterListener
     'object2'.jot();
+  }
+
+  Future firstScreen() async {
+    return context.gotoForever('/weather');
   }
 }

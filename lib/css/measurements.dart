@@ -17,6 +17,7 @@ class Measurements {
       nilWb = 0.w,
       unitHt = 1.h,
       unitWb = 1.w,
+      customStepGranularity = 2.sp,
       toolbarHeight = kToolbarHeight.h,
       xs = gc?.getValue<String>('xs').toInt().sp ?? double.nan,
       xl = gc?.getValue<String>('xl').toInt().sp ?? double.nan,
@@ -31,14 +32,25 @@ class Measurements {
       large = gc?.getValue<String>('large').toInt().sp ?? double.nan,
       medium = gc?.getValue<String>('medium').toInt().sp ?? double.nan,
       normal = gc?.getValue<String>('normal').toInt().sp ?? double.nan,
+      defaultAppleDatePickerItemExtent =
+          ((gc?.getValue<String>('large').toInt() ?? 0) * 2).sp,
+      defaultSpinLinesHt = ((gc?.getValue<String>('large').toInt() ?? 0) +
+              (gc?.getValue<String>('xl').toInt() ?? 0) +
+              (gc?.getValue<String>('5xl').toInt() ?? 0) +
+              (gc?.getValue<String>('small').toInt() ?? 0))
+          .h,
+      defaultSpinLinesWidth = ((gc?.getValue<String>('xs').toInt() ?? 0) /
+              (gc?.getValue<String>('3xs').toInt() ?? 0))
+          .w,
+      defaultDancingSquareLoaderHt =
+          ((gc?.getValue<String>('large').toInt() ?? 0) +
+                  (gc?.getValue<String>('xl').toInt() ?? 0) +
+                  (gc?.getValue<String>('5xl').toInt() ?? 0))
+              .h,
+      defaultLoaderHt = ((gc?.getValue<String>('4xl').toInt() ?? 0) +
+              (gc?.getValue<String>('5xl').toInt() ?? 0))
+          .h,
       stretchTriggerOffset =
-          (((gc?.getValue<String>('4xl').toInt().sp ?? double.nan) +
-                      (gc?.getValue<String>('5xl').toInt().sp ?? double.nan)) *
-                  2)
-              .sp,
-      defaultGradientIconSize = (((gc?.getValue<String>('4xl').toInt() ?? 0) +
-                  (gc?.getValue<String>('3xl').toInt() ?? 0) +
-                  (gc?.getValue<String>('3xs').toInt() ?? 0)) /
-              2)
-          .sp;
+          (((gc?.getValue<String>('4xl').toInt().sp ?? double.nan) + (gc?.getValue<String>('5xl').toInt().sp ?? double.nan)) * 2).sp,
+      defaultGradientIconSize = (((gc?.getValue<String>('4xl').toInt() ?? 0) + (gc?.getValue<String>('3xl').toInt() ?? 0) + (gc?.getValue<String>('3xs').toInt() ?? 0)) / 2).sp;
 }

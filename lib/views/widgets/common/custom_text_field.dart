@@ -60,66 +60,67 @@ class CustomTextField extends StatelessWidget {
       enableSuggestions,
       enableInteractiveSelection,
       enableIMEPersonalizedLearning;
+
   const CustomTextField(
       {super.key,
-      this.prefix,
-      this.focusNode,
-      this.cupertino,
-      this.material,
-      this.keyboardType,
-      this.padding,
-      this.textInputAction,
-      this.controller,
-      this.textCapitalization,
-      this.initialValue,
-      this.placeholder,
-      this.restorationId,
       this.style,
-      this.placeholderStyle,
-      this.strutStyle,
-      this.textDirection,
-      this.textAlign,
-      this.textAlignVertical,
-      this.autofocus,
-      this.autocorrect,
-      this.enableSuggestions,
-      this.enableInteractiveSelection,
-      this.enableIMEPersonalizedLearning,
-      this.expands,
-      this.obscureText,
-      this.readOnly,
-      this.showCursor,
-      this.enabled,
-      this.obscuringCharacter,
-      this.smartDashesType,
-      this.smartQuotesType,
-      this.minLines,
-      this.maxLength,
-      this.maxLines,
       this.onTap,
-      this.onEditingComplete,
-      this.onChanged,
-      this.onFieldSubmitted,
+      this.prefix,
       this.onSaved,
+      this.padding,
+      this.expands,
+      this.enabled,
+      this.material,
+      this.minLines,
+      this.maxLines,
+      this.readOnly,
+      this.autofocus,
+      this.cupertino,
+      this.focusNode,
+      this.maxLength,
+      this.onChanged,
+      this.textAlign,
       this.validator,
-      this.inputFormatters,
-      this.cursorWidth,
-      this.cursorHeight,
+      this.controller,
+      this.strutStyle,
+      this.showCursor,
+      this.mouseCursor,
+      this.isFormField,
+      this.autocorrect,
+      this.obscureText,
       this.cursorColor,
-      this.keyboardAppearance,
-      this.scrollPadding,
-      this.selectionControls,
-      this.scrollPhysics,
-      this.autofillHints,
-      this.autovalidateMode,
-      this.maxLengthEnforcement,
+      this.cursorWidth,
+      this.placeholder,
+      this.keyboardType,
+      this.initialValue,
+      this.cursorHeight,
       this.cursorRadius,
       this.buildCounter,
+      this.withoutBorder,
+      this.scrollPadding,
+      this.scrollPhysics,
+      this.autofillHints,
+      this.textDirection,
+      this.restorationId,
+      this.textInputAction,
+      this.smartDashesType,
+      this.smartQuotesType,
+      this.inputFormatters,
+      this.placeholderStyle,
+      this.autovalidateMode,
+      this.onFieldSubmitted,
       this.scrollController,
-      this.mouseCursor,
+      this.textAlignVertical,
+      this.enableSuggestions,
+      this.onEditingComplete,
+      this.selectionControls,
+      this.keyboardAppearance,
       this.contextMenuBuilder,
-      this.isFormField,
-      this.withoutBorder});
+      this.obscuringCharacter,
+      this.textCapitalization,
+      this.maxLengthEnforcement,
+      this.enableInteractiveSelection,
+      this.enableIMEPersonalizedLearning});
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +158,6 @@ class CustomTextField extends StatelessWidget {
                 scrollPhysics: scrollPhysics,
                 autofillHints: autofillHints,
                 autofocus: autofocus ?? false,
-                cursorWidth: cursorWidth ?? measurements.xs4,
                 autocorrect: autocorrect ?? true,
                 smartDashesType: smartDashesType,
                 smartQuotesType: smartQuotesType,
@@ -170,6 +170,7 @@ class CustomTextField extends StatelessWidget {
                 selectionControls: selectionControls,
                 keyboardAppearance: keyboardAppearance,
                 textAlign: textAlign ?? TextAlign.start,
+                cursorWidth: cursorWidth ?? measurements.xs4,
                 enableSuggestions: enableSuggestions ?? true,
                 obscuringCharacter: obscuringCharacter ?? '•',
                 scrollPadding: scrollPadding ?? measurements.xl2.allPadding,
@@ -273,10 +274,8 @@ class CustomTextField extends StatelessWidget {
                         enableInteractiveSelection ?? true,
                     textCapitalization:
                         textCapitalization ?? TextCapitalization.none,
-                    placeholderStyle: placeholderStyle ??
-                        const TextStyle(
-                            fontWeight: FontWeight.w400,
-                            color: CupertinoColors.placeholderText),
+                    placeholderStyle:
+                        placeholderStyle ?? css.applePlaceHolderStyle,
                     contextMenuBuilder:
                         contextMenuBuilder ?? getAppleContextMenuBuilder));
       default:
@@ -330,11 +329,11 @@ class CustomTextField extends StatelessWidget {
                 obscuringCharacter: obscuringCharacter ?? '•',
                 scrollPadding: scrollPadding ?? measurements.xl2.allPadding,
                 enableInteractiveSelection: enableInteractiveSelection ?? true,
+                contextMenuBuilder: contextMenuBuilder ?? getContextMenuBuilder,
                 textCapitalization:
                     textCapitalization ?? TextCapitalization.none,
                 enableIMEPersonalizedLearning:
-                    enableIMEPersonalizedLearning ?? true,
-                contextMenuBuilder: contextMenuBuilder ?? getContextMenuBuilder)
+                    enableIMEPersonalizedLearning ?? true)
             : TextField(
                 onTap: onTap,
                 style: style,
@@ -379,12 +378,11 @@ class CustomTextField extends StatelessWidget {
                 obscuringCharacter: obscuringCharacter ?? '•',
                 scrollPadding: scrollPadding ?? measurements.xl2.allPadding,
                 enableInteractiveSelection: enableInteractiveSelection ?? true,
-                textCapitalization:
-                    textCapitalization ?? TextCapitalization.none,
+                contextMenuBuilder: contextMenuBuilder ?? getContextMenuBuilder,
                 enableIMEPersonalizedLearning:
                     enableIMEPersonalizedLearning ?? true,
-                contextMenuBuilder:
-                    contextMenuBuilder ?? getContextMenuBuilder);
+                textCapitalization:
+                    textCapitalization ?? TextCapitalization.none);
     }
   }
 }

@@ -13,18 +13,9 @@ class WeatherDayItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final wm = context.getWeatherProvider();
     Widget getHourlyWeatherWidget(WeatherHour wh) {
-      final td = DateTime.now();
-      String feelsLikeText;
-      if (wh.dateTimeEpoch.hasPassed(td)) {
-        feelsLikeText = 'Felt like';
-      } else if (wh.dateTimeEpoch.isYetToPass(td)) {
-        feelsLikeText = 'Will feel like';
-      } else if (wh.dateTimeEpoch.compareDateOnly(td)) {
-        feelsLikeText = 'Feels like';
-      } else {
-        feelsLikeText = '';
-      }
+      wm.setFeelsLikeText(wh);
       return Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -35,14 +26,13 @@ class WeatherDayItemWidget extends StatelessWidget {
                   wh.dateTime.time.textWidget(style: css.defaultXLMStyle),
                   wh.conditions.textWidget(style: css.defaultXLMStyle)
                 ])),
-            // 'Date: ${wh.dateTimeEpoch}'.textWidget(style: css.defaultLMStyle),
             EdgeInsets.symmetric(vertical: context.height / 100).paddedWidget(
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                   'Temperature: ${wh.temp}°C'
                       .textWidget(style: css.defaultMMStyle),
-                  '$feelsLikeText ${wh.feelsLike}°C'
+                  '${wm.feelsLikeText} ${wh.feelsLike}°C'
                       .textWidget(style: css.defaultMMStyle)
                 ])),
             EdgeInsets.only(bottom: context.height / 160).paddedWidget(
@@ -68,70 +58,21 @@ class WeatherDayItemWidget extends StatelessWidget {
         shadowColor: shades.kBlue,
         color: shades.kWhite.withOpacity(0.5),
         child: ExpansionTile(
-          dense: true,
-          onExpansionChanged: (bool flag) {
-            wd.dateTimeEpoch.jot();
-          },
-          leading: wd.dateTime.string.dateWithF1
-              .textWidget(style: css.defaultMMStyle),
-          title: '${wd.temp.string}°C'.textWidget(style: css.defaultMMStyle),
-          childrenPadding: EdgeInsets.symmetric(
-              horizontal: context.width /
-                  (wd.dateTimeEpoch.compareDateOnly(DateTime.now())
-                      ? 50
-                      : 100)),
-          children: wd.hours.map<Widget>(getHourlyWeatherWidget).toList(),
-          // child: ListTile(
-          //   leading: ,
-          //   title: wd.conditions.textWidget(),
-          // ),
-          // Expanded(
-          //     child: Column(
-          //         mainAxisAlignment: MainAxisAlignment.center,
-          //         children: <Widget>[
-          //       Flexible(
-          //           child: Row(
-          //               mainAxisAlignment:
-          //                   MainAxisAlignment.spaceBetween,
-          //               children: [
-          //             'Temperature: ${c.cc.temp}°C'.textWidget(
-          //                 style: 'Poppins'.getStyleFromFont(
-          //                     fontSize: measurements.large,
-          //                     fontWeight: 500.fontWeight)),
-          //             'Feels like ${c.cc.feelsLike}°C'.textWidget(
-          //                 style: 'Poppins'.getStyleFromFont(
-          //                     fontSize: measurements.large,
-          //                     fontWeight: 500.fontWeight))
-          //           ])),
-          //       Flexible(
-          //           child: Row(
-          //               mainAxisAlignment:
-          //                   MainAxisAlignment.spaceBetween,
-          //               children: [
-          //             'Maximum: ${dw.maxTemp}°C'.textWidget(
-          //                 style: 'Poppins'.getStyleFromFont(
-          //                     fontSize: measurements.large,
-          //                     fontWeight: 500.fontWeight)),
-          //             'Minimum: ${dw.minTemp}°C'.textWidget(
-          //                 style: 'Poppins'.getStyleFromFont(
-          //                     fontSize: measurements.large,
-          //                     fontWeight: 500.fontWeight))
-          //           ])),
-          //       Flexible(
-          //           child: Row(
-          //               mainAxisAlignment:
-          //                   MainAxisAlignment.spaceBetween,
-          //               children: [
-          //             'Humidity: ${c.cc.humidity}%'.textWidget(
-          //                 style: 'Poppins'.getStyleFromFont(
-          //                     fontSize: measurements.large,
-          //                     fontWeight: 500.fontWeight)),
-          //             'Wind: ${c.cc.windSpeed} Km/hr'.textWidget(
-          //                 style: 'Poppins'.getStyleFromFont(
-          //                     fontSize: measurements.large,
-          //                     fontWeight: 500.fontWeight))
-          //           ]))
-          //     ])),
-        ));
+            dense: true,
+            onExpansionChanged: (bool flag) {
+              wd.dateTimeEpoch.jot();
+            },
+            leading: wd.dateTime.string.dateWithF1.autoSizeTextWidget(
+                style: css.defaultMMStyle,
+                minFontSize: measurements.xs,
+                maxFontSize: measurements.medium,
+                stepGranularity: measurements.customStepGranularity),
+            title: '${wd.temp.string}°C'.textWidget(style: css.defaultMMStyle),
+            childrenPadding: EdgeInsets.symmetric(
+                horizontal: context.width /
+                    (wd.dateTimeEpoch.compareDateOnly(DateTime.now())
+                        ? 50
+                        : 100)),
+            children: wd.hours.map<Widget>(getHourlyWeatherWidget).toList()));
   }
 }

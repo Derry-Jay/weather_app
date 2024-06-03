@@ -7,6 +7,7 @@ import 'package:weather_app/extensions/extensions.dart';
 
 import '../mixins/mixins.dart';
 import '../models/weather/climate.dart';
+import '../models/weather/weather_hour.dart';
 import '../utils/keys.dart';
 import '../utils/methods.dart';
 import '../utils/values.dart';
@@ -24,6 +25,8 @@ class WeatherModule extends ChangeNotifier with API {
   CameraPosition? cp;
 
   double cityFontSize = 0.0;
+
+  String feelsLikeText = '';
 
   late BuildContext _buildContext;
 
@@ -77,6 +80,9 @@ class WeatherModule extends ChangeNotifier with API {
         cm.cc.conditions.lowerCased.contains('overcast') ||
         cm.cc.conditions.lowerCased.contains('overcast')) {
       icon = Icons.wb_cloudy;
+    } else if (cm.description.lowerCased.contains('partially cloudy') ||
+        cm.cc.conditions.lowerCased.contains('partially cloudy')) {
+      icon = Icons.wb_cloudy_outlined;
     } else if (cm.description.lowerCased.contains('clear') ||
         cm.description.lowerCased.contains('sunny') ||
         cm.cc.conditions.lowerCased.contains('sunny') ||
@@ -87,6 +93,19 @@ class WeatherModule extends ChangeNotifier with API {
     }
     dec = BoxDecoration(
         image: cm.cc.icon.ipFromAsset().getDecorImage(fit: 'fill'.boxFit));
+  }
+
+  void setFeelsLikeText(WeatherHour wh) {
+    final td = DateTime.now();
+    if (wh.dateTimeEpoch.hasPassed(td)) {
+      feelsLikeText = 'Felt like';
+    } else if (wh.dateTimeEpoch.isYetToPass(td)) {
+      feelsLikeText = 'Will feel like';
+    } else if (wh.dateTimeEpoch.compareDateOnly(td)) {
+      feelsLikeText = 'Feels like';
+    } else {
+      feelsLikeText = '';
+    }
   }
 
   void setValuesAccToOrientation(Orientation ol) {
@@ -103,11 +122,11 @@ class WeatherModule extends ChangeNotifier with API {
         cityFontSize = measurements.xl;
         break;
       default:
-        desFlex = 2;
-        cityFlex = 1;
-        cardFlex = 19;
-        listFlex = 21;
-        minMaxFlex = 4;
+        desFlex = 3;
+        cityFlex = 2;
+        cardFlex = 1;
+        listFlex = 1;
+        minMaxFlex = 3;
         humWindFlex = 2;
         conditionFlex = 1;
         tempFeelsFlex = 2;

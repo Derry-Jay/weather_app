@@ -12,6 +12,7 @@ class Shades {
   final kRed = Colors.red,
       kBlue = Colors.blue,
       kGrey = Colors.grey,
+      kTeal = Colors.teal,
       kBlack = Colors.black,
       kWhite = Colors.white,
       kOrange = Colors.orange,

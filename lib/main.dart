@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:timezone/data/latest_all.dart';
 
 import '/utils/methods.dart';
 import '../extensions/extensions.dart';
@@ -21,7 +20,7 @@ void main() async {
                     .getEncoded())
                 .getDecoded() as Map<String, Object?>? ??
             <String, Object?>{});
-    initializeTimeZones();
+    // initializeTimeZones();
     if (await Permission.locationWhenInUse.request().isGranted) {
       // Either the permission was already granted before or the user just granted it.
     }

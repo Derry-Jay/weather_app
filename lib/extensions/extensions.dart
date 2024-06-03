@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,6 +38,7 @@ import '../utils/values.dart';
 import '../views/widgets/common/circular_loader.dart';
 import '../views/widgets/common/custom_button.dart';
 import '../views/widgets/common/empty_widget.dart';
+import 'continuations.dart';
 
 extension Mileage on IosDeviceInfo {
   String get value => jsonEncode(data);
@@ -48,36 +50,6 @@ extension Extras on AndroidDeviceInfo {
 
 extension Pos on Position {
   LatLng get ll => LatLng(latitude, longitude);
-}
-
-extension Decor on ImageProvider {
-  DecorationImage getDecorImage(
-          {BoxFit? fit,
-          double? scale,
-          double? opacity,
-          bool? isAntiAlias,
-          Rect? centerSlice,
-          bool? invertColors,
-          ImageRepeat? repeat,
-          ColorFilter? colorFilter,
-          bool? matchTextDirection,
-          AlignmentGeometry? alignment,
-          FilterQuality? filterQuality,
-          void Function(Object, StackTrace?)? onError}) =>
-      DecorationImage(
-          fit: fit,
-          image: this,
-          onError: onError,
-          opacity: opacity ?? 1.0,
-          centerSlice: centerSlice,
-          colorFilter: colorFilter,
-          scale: scale ?? measurements.unit,
-          isAntiAlias: isAntiAlias ?? false,
-          invertColors: invertColors ?? false,
-          repeat: repeat ?? ImageRepeat.noRepeat,
-          alignment: alignment ?? Alignment.center,
-          matchTextDirection: matchTextDirection ?? false,
-          filterQuality: filterQuality ?? FilterQuality.low);
 }
 
 extension Co on Radius {
@@ -124,6 +96,68 @@ extension Formatters on Pattern {
           replacementString: replacement ?? '');
 }
 
+extension Decor on ImageProvider {
+  DecorationImage getDecorImage(
+          {BoxFit? fit,
+          double? scale,
+          double? opacity,
+          bool? isAntiAlias,
+          Rect? centerSlice,
+          bool? invertColors,
+          ImageRepeat? repeat,
+          ColorFilter? colorFilter,
+          bool? matchTextDirection,
+          AlignmentGeometry? alignment,
+          FilterQuality? filterQuality,
+          void Function(Object, StackTrace?)? onError}) =>
+      DecorationImage(
+          fit: fit,
+          image: this,
+          onError: onError,
+          opacity: opacity ?? 1.0,
+          centerSlice: centerSlice,
+          colorFilter: colorFilter,
+          scale: scale ?? measurements.unit,
+          isAntiAlias: isAntiAlias ?? false,
+          invertColors: invertColors ?? false,
+          repeat: repeat ?? ImageRepeat.noRepeat,
+          alignment: alignment ?? Alignment.center,
+          matchTextDirection: matchTextDirection ?? false,
+          filterQuality: filterQuality ?? FilterQuality.low);
+}
+
+extension E1 on void Function(DateTime) {
+  CupertinoDatePicker getAppleDatePicker(
+          {Key? key,
+          int? minimumYear,
+          int? maximumYear,
+          double? itemExtent,
+          bool? use24hFormat,
+          bool? showDayOfWeek,
+          int? minuteInterval,
+          DateTime? minimumDate,
+          DateTime? maximumDate,
+          Color? backgroundColor,
+          DateTime? initialDateTime,
+          CupertinoDatePickerMode? mode,
+          DatePickerDateOrder? dateOrder}) =>
+      CupertinoDatePicker(
+          dateOrder: dateOrder,
+          onDateTimeChanged: this,
+          maximumDate: maximumDate,
+          minimumDate: minimumDate,
+          maximumYear: maximumYear,
+          minimumYear: minimumYear ?? 1,
+          initialDateTime: initialDateTime,
+          backgroundColor: backgroundColor,
+          use24hFormat: use24hFormat ?? false,
+          minuteInterval: minuteInterval ?? 1,
+          showDayOfWeek: showDayOfWeek ?? false,
+          mode: mode ?? CupertinoDatePickerMode.dateAndTime,
+          itemExtent:
+              itemExtent ?? measurements.defaultAppleDatePickerItemExtent);
+}
+
 extension ListStringUtils on Iterable<String> {
   Set<String> get commonPattern {
     Set<String> rs = <String>{};
@@ -166,8 +200,8 @@ extension Deputy on double {
 
   BorderRadius get circularBorderRadius => BorderRadius.circular(this);
 
-  Widget squareConstrainChild({Widget? child}) =>
-      SizedBox.square(dimension: this, child: child);
+  Offset offsetFromDirection([double? distance]) =>
+      Offset.fromDirection(this, distance ?? 1.0);
 }
 
 extension Cover on InlineSpan {
@@ -470,6 +504,12 @@ extension Extra on Iterable<num> {
 
   bool get isSymmetric => mean == median;
 
+  Size get size => isEmpty || !<int>[1, 2].contains(length)
+      ? Size.infinite
+      : (length == 1
+          ? Size.square(single.float)
+          : Size(first.float, last.float));
+
   Offset get offset => isEmpty || length != 2
       ? Offset.infinite
       : Offset(first.float, last.float);
@@ -675,9 +715,6 @@ extension Support on Size {
   double get radius => (width.square + height.square).squareRoot;
 
   double get diagonal => (shortestSide.square + longestSide.square).squareRoot;
-
-  Widget constrainChild({Widget? child}) =>
-      SizedBox.fromSize(size: this, child: child);
 }
 
 extension Tip on BoxConstraints {
@@ -792,6 +829,8 @@ extension Help on int {
 
   bool get isPalindrome => reversed == this;
 
+  String get charCodeToStr => String.fromCharCode(this);
+
   bool get eitherZeroOrOne => <int>[0, 1].contains(this);
 
   Icon get filledStar => Icon(Icons.star, color: shades.kGold1);
@@ -824,31 +863,6 @@ extension Help on int {
         return '$this${this ~/ 10 == 1 ? "th" : "rd"}';
       default:
         return '${this}th';
-    }
-  }
-
-  FontWeight get fontWeight {
-    switch (this) {
-      case 100:
-        return FontWeight.w100;
-      case 200:
-        return FontWeight.w200;
-      case 300:
-        return FontWeight.w300;
-      case 400:
-        return FontWeight.w400;
-      case 500:
-        return FontWeight.w500;
-      case 600:
-        return FontWeight.w600;
-      case 700:
-        return FontWeight.w700;
-      case 800:
-        return FontWeight.w800;
-      case 900:
-        return FontWeight.w900;
-      default:
-        return FontWeight.normal;
     }
   }
 
@@ -1570,6 +1584,47 @@ extension Utils on String {
           trimExpandedText: trimExpandedText ?? 'show less',
           trimCollapsedText: trimCollapsedText ?? 'read more');
 
+  AutoSizeText autoSizeTextWidget(
+          {Key? key,
+          Key? textKey,
+          int? maxLines,
+          Locale? locale,
+          bool? softWrap,
+          bool? wrapWords,
+          TextStyle? style,
+          double? maxFontSize,
+          double? minFontSize,
+          AutoSizeGroup? group,
+          TextAlign? textAlign,
+          String? semanticsLabel,
+          StrutStyle? strutStyle,
+          TextOverflow? overflow,
+          double? stepGranularity,
+          double? textScaleFactor,
+          Widget? overflowReplacement,
+          TextDirection? textDirection,
+          List<double>? presetFontSizes}) =>
+      AutoSizeText(this,
+          key: key,
+          style: style,
+          group: group,
+          locale: locale,
+          textKey: textKey,
+          overflow: overflow,
+          maxLines: maxLines,
+          softWrap: softWrap,
+          textAlign: textAlign,
+          strutStyle: strutStyle,
+          wrapWords: wrapWords ?? true,
+          textDirection: textDirection,
+          semanticsLabel: semanticsLabel,
+          presetFontSizes: presetFontSizes,
+          textScaleFactor: textScaleFactor,
+          overflowReplacement: overflowReplacement,
+          maxFontSize: maxFontSize ?? double.infinity,
+          minFontSize: minFontSize ?? measurements.normal,
+          stepGranularity: stepGranularity ?? measurements.unit);
+
   Text textWidget(
           {Key? key,
           int? maxLines,
@@ -1968,19 +2023,15 @@ extension Helper on BuildContext {
                 goBack(picked);
               },
               child: const Icon(Icons.close_outlined)),
-          message: SizedBox(
-              width: width / 1.28,
-              height: height / 1.6,
-              child: CupertinoDatePicker(
-                dateOrder: dateOrder,
-                maximumDate: lastDate,
-                minimumDate: firstDate,
-                initialDateTime: initialDate,
-                onDateTimeChanged: changeDate,
-                backgroundColor: backgroundColor,
-                use24hFormat: use24hFormat ?? false,
-                mode: mode ?? CupertinoDatePickerMode.dateAndTime,
-              )));
+          message: [width / 1.28, height / 1.6].size.constrainChild(
+              child: changeDate.getAppleDatePicker(
+                  mode: mode,
+                  dateOrder: dateOrder,
+                  maximumDate: lastDate,
+                  minimumDate: firstDate,
+                  use24hFormat: use24hFormat,
+                  initialDateTime: initialDate,
+                  backgroundColor: backgroundColor)));
     }
 
     switch (defaultTargetPlatform) {

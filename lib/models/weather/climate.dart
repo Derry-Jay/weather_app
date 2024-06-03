@@ -15,6 +15,7 @@ class Climate {
 
   Climate.fromJson(Map<String, Object?> json) {
     try {
+      json.jot();
       address = json['address'].string;
       description = json['description'].string;
       queryCost = json['queryCost'].string.toInt();
@@ -29,9 +30,15 @@ class Climate {
           json['currentConditions'] as Map<String, Object?>? ??
               <String, Object?>{});
     } catch (e) {
-      'Climate'.jot();
       e.jot();
-      'Climate'.jot();
     }
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is Climate && latLong == other.latLong;
+  }
+
+  @override
+  int get hashCode => latLong.hashCode;
 }

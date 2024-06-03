@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../extensions/continuations.dart';
 import '../../../extensions/extensions.dart';
 import '../../../models/weather/climate.dart';
 import '../../../utils/enums.dart';
@@ -94,6 +95,9 @@ class WeatherWidget extends StatelessWidget {
                                                   Flexible(
                                                       child: 'Feels like ${c.cc.feelsLike}°C'
                                                           .textWidget(
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .right,
                                                               style: css
                                                                   .defaultLMStyle))
                                                 ])),
@@ -114,6 +118,9 @@ class WeatherWidget extends StatelessWidget {
                                                   Flexible(
                                                       child: 'Minimum: ${dw.minTemp}°C'
                                                           .textWidget(
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .right,
                                                               style: css
                                                                   .defaultLMStyle))
                                                 ])),
@@ -136,6 +143,9 @@ class WeatherWidget extends StatelessWidget {
                                                       flex: 3,
                                                       child: 'Wind: ${c.cc.windSpeed} Kmph'
                                                           .textWidget(
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .right,
                                                               style: css
                                                                   .defaultLMStyle)),
                                                 ]))

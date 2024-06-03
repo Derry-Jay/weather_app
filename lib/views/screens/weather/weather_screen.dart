@@ -13,7 +13,6 @@ class WeatherScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            // backgroundColor: Colors.transparent,
             appBar: ThemedAppBar(
                 factor: 8,
                 toolbarHeight: context.height / 8.192,
@@ -22,12 +21,12 @@ class WeatherScreen extends StatelessWidget {
                     placeholder: 'Search Location',
                     material: InputDecoration(
                         hintText: 'Enter Location',
-                        // helperText: 'Search Location',
                         suffix: Icons.search_sharp
                             .iconBuilder(color: shades.kBlue)
                             .iconButtonBuilder(
-                                onPressed:
-                                    context.getWeatherProvider().rebuild)))),
+                                onPressed: loc.text.isEmpty
+                                    ? null
+                                    : context.getWeatherProvider().rebuild)))),
             body: const WeatherWidget()));
   }
 }
